@@ -1,0 +1,64 @@
+﻿.validation-summary-errors {
+    color: red;
+}
+
+ul
+{
+    list-style-type: none;
+}
+ 
+
+.subTasks {
+    margin-left: 3em;
+}
+
+.field-validation-error {
+    color: red;
+}
+
+
+DIV#header a {
+    color: white;
+}
+
+a {
+    color: black;
+}
+
+DIV#header { 
+    background-color: #444; 
+    border-bottom: 2px solid #111; 
+    color: White; 
+}
+
+DIV#header DIV.title { 
+    font-size: 2em; 
+    padding: .6em;
+    float: left;
+}
+
+DIV#header DIV.logout { 
+    color: white;
+    float:right;
+}
+
+DIV#categories { 
+    float: left; 
+    width: 8em; 
+    padding: .3em; 
+}
+
+div#logout{
+    float:right;
+}
+
+DIV#content { 
+    border-left: 2px solid gray; 
+    margin-left: 12em; 
+    padding: 1em; 
+}
+
+.task {
+     padding-top: .7em;
+      margin-bottom: .7em;
+}

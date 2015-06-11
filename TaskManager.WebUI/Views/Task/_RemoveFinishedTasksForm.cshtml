@@ -1,0 +1,8 @@
+﻿@model TaskManager.Domain.Entities.Task
+
+@using (Ajax.BeginForm("_RemoveFinishedTasks", "Task",
+        new AjaxOptions { UpdateTargetId = "tasks", HttpMethod = "POST" }))
+        {
+                @Html.HiddenFor(x => x.CategoryId)
+                <input value="Remove finished tasks" type="submit" />
+        }

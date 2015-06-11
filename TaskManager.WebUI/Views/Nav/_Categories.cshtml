@@ -1,0 +1,25 @@
+﻿@model List<TaskManager.Domain.Entities.Category>
+
+
+    <h2>Categories</h2>
+    <ul>
+        @if (Model != null)
+        {
+            foreach (var category in Model)
+            {
+                @Html.Action("_Category", category); 
+            }
+        }
+    </ul>
+
+
+    @using (Ajax.BeginForm("_AddCategory", "Nav",
+        new AjaxOptions { UpdateTargetId = "categories", HttpMethod = "POST"}))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Action("_CategoryForm","Nav")
+    }
+
+
+
+

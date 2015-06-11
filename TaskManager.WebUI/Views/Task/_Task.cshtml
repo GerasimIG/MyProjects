@@ -1,0 +1,37 @@
+﻿@model  TaskManager.Domain.Entities.Task
+
+    <div class="task">
+        <div>
+            <div style="float:left">
+                @using (Ajax.BeginForm("_ChangeTaskStatus", "Task", null,
+        new AjaxOptions { UpdateTargetId = "tasks", HttpMethod = "POST" }, new { @class = "taskStatusForm" }
+        ))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.CheckBoxFor(x => x.IsFinished, new { @class = "taskCheckBox" })
+                    @Html.HiddenFor(x => x.Id)
+                    @Html.HiddenFor(x => x.CategoryId)
+                }
+            </div>
+            @Model.Text
+            <div style="float:right">
+                @using (Ajax.BeginForm("_RemoveTask", "Task",
+        new AjaxOptions { UpdateTargetId = "tasks", HttpMethod = "POST" }
+        ))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.HiddenFor(x => x.Id)
+                    @Html.HiddenFor(x => x.CategoryId)
+
+                    <input value="X" type="submit" class="remove" />
+                }
+            </div>
+            <div style="clear:both"></div>
+        </div>
+        @Ajax.ActionLink("Show sub tasks", "_GetForTask", "SubTask", new { id = Model.Id },
+    new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "subTasks" + Model.Id })
+        <div class="subTasks" id="subTasks@(Model.Id)"></div>
+        <hr />
+        <br />
+    </div>
+

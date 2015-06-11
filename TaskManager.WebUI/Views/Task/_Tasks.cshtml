@@ -1,0 +1,29 @@
+﻿@model  List<TaskManager.Domain.Entities.Task>
+
+    
+    @if (Model != null)
+    {
+        
+        @Html.Action("_RemoveFinishedTasksForm", "Task", Model.FirstOrDefault());
+        <hr />
+
+        foreach (var task in Model)
+        {
+            @Html.Action("_Task", task);
+        }
+    }
+
+    @using (Ajax.BeginForm("_AddTask", "Task",
+        new AjaxOptions { UpdateTargetId = "tasks", HttpMethod = "POST" }
+        ))
+    {
+        @Html.AntiForgeryToken()
+        @Html.Action("_TaskForm", "Task", new { categoryId = ViewBag.CategoryId })
+        <br />
+        <input type="submit" value="Add Task" />
+    }
+
+
+
+
+

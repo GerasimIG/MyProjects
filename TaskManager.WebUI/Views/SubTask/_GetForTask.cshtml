@@ -1,0 +1,19 @@
+﻿@model List<TaskManager.Domain.Entities.SubTask>
+
+@if (Model != null)
+{
+    foreach (var subTask in Model)
+    {
+        @Html.Action("_SubTask", subTask);
+    }
+}
+<br />
+@using (Ajax.BeginForm("_AddSubTask", "SubTask",
+        new AjaxOptions { UpdateTargetId = "subTasks" + ViewBag.TaskId, HttpMethod = "POST" }
+        ))
+{
+    @Html.AntiForgeryToken()
+    @Html.Action("_SubTaskForm", "SubTask", new { taskId =  ViewBag.TaskId})
+    <br />
+    <input type="submit" value="Add sub task" />
+}

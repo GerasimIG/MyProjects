@@ -1,0 +1,23 @@
+﻿@model TaskManager.Domain.Entities.Category
+
+<li>
+    <div style="float:left">
+        @Html.RouteLink(Model.Text, new
+           {
+               controller = "Task",
+               action = "Category",
+               id = Model.Id
+           })
+    </div>
+    <div style="float:right">
+        @using (Html.BeginForm("_RemoveCategory", "Nav"))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(x => Model.Id)
+            <input value="X" type="submit" />
+        }
+    </div>
+    <div style="clear:both"></div>
+</li>
+<br />
+

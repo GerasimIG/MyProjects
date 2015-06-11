@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div id="categories">
+    @{Html.RenderAction("_Categories", "Nav");}  
+</div>
+<div id="content">
+    <h2>Tasks</h2>
+    <div id="tasks">
+        @Html.Action("_Tasks", "Task", new { categoryId = ViewBag.CategoryId })
+    </div>
+</div>
+
+
+
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryval") 
+    <script>
+    $(document).ready(function () {
+        $(document).on('change', '.taskCheckBox', function (event) {
+            $(this).parents('.taskStatusForm').submit();
+        });
+
+        $(document).on('change', '.subTaskCheckBox', function (event) {
+            var task = $(this).parents('.task');
+            if (l = task.find('.subTaskCheckBox').not(':checked').length > 0) {
+                $(this).parents('.subTaskStatusForm').submit();
+            }
+            else {
+                task.find('.taskCheckBox').change();
+            }          
+        })
+    })
+</script>
+ 
+}
