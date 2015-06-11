@@ -16,13 +16,20 @@ namespace TaskManager.WebUI.Controllers
         {
             _subTaskService = subTaskService;
         }
-       
         public PartialViewResult _GetForTask(int id)
         {
-            var tasks = _subTaskService.GetSubTasksByTaskId(id);
-            ViewBag.TaskId = id;
+            try
+            {
+                var tasks = _subTaskService.GetSubTasksByTaskId(id, User.Identity.Name);
+                ViewBag.TaskId = id;
 
-            return PartialView("_GetForTask", tasks);
+                return PartialView("_GetForTask", tasks);
+            }
+            catch(NullReferenceException)
+            {
+                Response.StatusCode = 404;
+                return PartialView("_Error404");
+            }
         }
 
         [ChildActionOnly]
@@ -50,7 +57,7 @@ namespace TaskManager.WebUI.Controllers
                 _subTaskService.Add(model);
             }
 
-            var subTasks = _subTaskService.GetSubTasksByTaskId(model.TaskId);
+            var subTasks = _subTaskService.GetSubTasksByTaskId(model.TaskId,User.Identity.Name);
             ViewBag.TaskId = model.TaskId;
 
             return PartialView("_GetForTask", subTasks);
@@ -64,19 +71,20 @@ namespace TaskManager.WebUI.Controllers
             
             ViewBag.TaskId = model.TaskId;
 
-            var subTasks = _subTaskService.GetSubTasksByTaskId(model.TaskId);
+            var subTasks = _subTaskService.GetSubTasksByTaskId(model.TaskId,User.Identity.Name);
 
             return PartialView("_GetForTask", subTasks);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public PartialViewResult _RemoveSubTask(SubTask model)
         {
             _subTaskService.RemoveById(model.Id);
 
             ViewBag.TaskId = model.TaskId;
 
-            var subTasks = _subTaskService.GetSubTasksByTaskId(model.TaskId);
+            var subTasks = _subTaskService.GetSubTasksByTaskId(model.TaskId,User.Identity.Name);
             return PartialView("_GetForTask", subTasks);
         }
     }

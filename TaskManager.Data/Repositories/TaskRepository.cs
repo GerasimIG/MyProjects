@@ -9,23 +9,24 @@ namespace TaskManager.Data.Repositories
 {
     public class TaskRepository : BaseRepository<Task>,ITaskRepository
     {
-        public List<Task> GetTasksByCategoryId(int categoryId)
+        public List<Task> GetTasksByCategoryId(int categoryId, string userName)
         {   
-            if(dbContext.Categories.Find(categoryId) == null)
+
+            var category = dbContext.Categories.Find(categoryId);
+
+            if(category != null)
             {
-                throw new NullReferenceException();
+                if(category.UserName == userName)
+                {
+                    return category.Tasks.OrderBy(x => x.IsFinished).ToList();
+                }
             }
 
-            var tasks = (from t in dbContext.Tasks
-                         where t.CategoryId == categoryId
-                         orderby t.IsFinished
-                         select t).ToList();
-
-            return tasks;
+            throw new NullReferenceException();
         }
 
 
-        public void RemoveFinisedTasksByCategoryId(int categoryId)
+        public void RemoveFinishedTasksByCategoryId(int categoryId)
         {
             var tasks = (from c in dbContext.Tasks
                               where c.IsFinished

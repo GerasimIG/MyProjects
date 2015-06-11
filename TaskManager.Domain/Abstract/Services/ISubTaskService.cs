@@ -9,7 +9,7 @@ namespace TaskManager.Domain.Abstract.Services
 {
     public interface ISubTaskService : IBaseService<SubTask>
     {
-        List<SubTask> GetSubTasksByTaskId(int subTaskId);
+        List<SubTask> GetSubTasksByTaskId(int taskId,string userName);
         void ChangeSubTaskStatus(int subTaskId);
     }
 }

@@ -33,7 +33,7 @@ namespace TaskManager.WebUI.Controllers
             }
             ViewBag.CategoryId = model.CategoryId;
 
-            var tasks = _taskService.GetTasksByCategoryId(model.CategoryId);
+            var tasks = _taskService.GetTasksByCategoryId(model.CategoryId,User.Identity.Name);
               
             return PartialView("_Tasks", tasks);
         }
@@ -46,7 +46,7 @@ namespace TaskManager.WebUI.Controllers
 
             ViewBag.CategoryId = model.CategoryId;
 
-            var tasks = _taskService.GetTasksByCategoryId(model.CategoryId);
+            var tasks = _taskService.GetTasksByCategoryId(model.CategoryId,User.Identity.Name);
             return PartialView("_Tasks", tasks);
         }
         [ChildActionOnly]
@@ -73,7 +73,7 @@ namespace TaskManager.WebUI.Controllers
             {
                 if (categoryId == 0)
                 {
-                    var category = _categoryService.GetAll().FirstOrDefault();
+                    var category = _categoryService.GetCategoriesByUserName(User.Identity.Name).FirstOrDefault();
                     if (category != null) categoryId = category.Id;
                 }
 
@@ -83,7 +83,7 @@ namespace TaskManager.WebUI.Controllers
                 }
 
                 ViewBag.CategoryId = categoryId;
-                var tasks = _taskService.GetTasksByCategoryId(categoryId);
+                var tasks = _taskService.GetTasksByCategoryId(categoryId,User.Identity.Name);
                 return PartialView("_Tasks", tasks);
             }
             catch (NullReferenceException)
@@ -101,17 +101,18 @@ namespace TaskManager.WebUI.Controllers
 
             ViewBag.CategoryId = model.CategoryId;
 
-            var tasks = _taskService.GetTasksByCategoryId(model.CategoryId);
+            var tasks = _taskService.GetTasksByCategoryId(model.CategoryId,User.Identity.Name);
             return PartialView("_Tasks", tasks);
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public PartialViewResult _RemoveFinishedTasks(Domain.Entities.Task model)
         {
             
-            _taskService.RemoveFinisedTasksByCategoryId(model.CategoryId);
+            _taskService.RemoveFinishedTasksByCategoryId(model.CategoryId);
             ViewBag.CategoryId = model.CategoryId;
-            var tasks = _taskService.GetTasksByCategoryId(model.CategoryId);
+            var tasks = _taskService.GetTasksByCategoryId(model.CategoryId,User.Identity.Name);
             return PartialView("_Tasks", tasks);
         }
 

@@ -9,8 +9,8 @@ namespace TaskManager.Domain.Abstract.Services
 {
     public interface ITaskService: IBaseService<Task>
     {
-        List<Task> GetTasksByCategoryId(int categoryId);
+        List<Task> GetTasksByCategoryId(int categoryId, string userName);
         void ChangeTaskStatus(int taskId);
-        void RemoveFinisedTasksByCategoryId(int categoryId);
+        void RemoveFinishedTasksByCategoryId(int categoryId);
     }
 }

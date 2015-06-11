@@ -10,14 +10,15 @@ namespace TaskManager.Data.Repositories
 {
     public class SubTaskRepository : BaseRepository<SubTask>, ISubTaskRepository
     {
-        public List<SubTask> GetSubTasksByTaskId(int subTaskId)
+        public List<SubTask> GetSubTasksByTaskId(int taskId,string userName)
         {
-            var subTasks = (from st in dbContext.SubTasks
-                            orderby st.IsFinished
-                            where st.TaskId == subTaskId
-                            select st).ToList();
+            var task = dbContext.Tasks.Find(taskId);
+            if(task.Category.UserName == userName)
+            {
+                return task.SubTasks.OrderBy(x => x.IsFinished).ToList();
+            }
 
-            return subTasks;
+            throw new NullReferenceException();
         }
     }
 }

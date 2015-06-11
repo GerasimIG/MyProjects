@@ -18,9 +18,9 @@ namespace TaskManager.Domain.Concrete.Services
         }
 
 
-        public List<SubTask> GetSubTasksByTaskId(int subTaskId)
+        public List<SubTask> GetSubTasksByTaskId(int taskId,string userName)
         {
-            return _subTaskRepository.GetSubTasksByTaskId(subTaskId);
+            return _subTaskRepository.GetSubTasksByTaskId(taskId,userName);
         }
 
 

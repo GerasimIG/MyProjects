@@ -17,9 +17,9 @@ namespace TaskManager.Domain.Concrete.Services
             _taskRepository = taskRepository;
         }
 
-        public List<Task> GetTasksByCategoryId(int categoryId)
+        public List<Task> GetTasksByCategoryId(int categoryId, string userName)
         {
-            return _taskRepository.GetTasksByCategoryId(categoryId);
+            return _taskRepository.GetTasksByCategoryId(categoryId, userName);
         }
 
         public void ChangeTaskStatus(int taskId)
@@ -39,9 +39,9 @@ namespace TaskManager.Domain.Concrete.Services
         }
 
 
-        public void RemoveFinisedTasksByCategoryId(int categoryId)
+        public void RemoveFinishedTasksByCategoryId(int categoryId)
         {
-            _taskRepository.RemoveFinisedTasksByCategoryId(categoryId);
+            _taskRepository.RemoveFinishedTasksByCategoryId(categoryId);
         }
     }
 }

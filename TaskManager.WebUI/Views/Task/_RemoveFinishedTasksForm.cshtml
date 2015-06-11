@@ -3,6 +3,7 @@
 @using (Ajax.BeginForm("_RemoveFinishedTasks", "Task",
         new AjaxOptions { UpdateTargetId = "tasks", HttpMethod = "POST" }))
         {
+                @Html.AntiForgeryToken()
                 @Html.HiddenFor(x => x.CategoryId)
                 <input value="Remove finished tasks" type="submit" />
         }

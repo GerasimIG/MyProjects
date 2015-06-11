@@ -9,6 +9,6 @@ namespace TaskManager.Domain.Abstract.Repositories
 {
     public interface ISubTaskRepository : IBaseRepository<SubTask>
     {
-        List<SubTask> GetSubTasksByTaskId(int subTaskId);
+        List<SubTask> GetSubTasksByTaskId(int taskId,string userName);
     }
 }
