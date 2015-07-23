@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewBag.Title = null;
+}
+
+<div class="alert alert-danger text-center"
+     data-bind="visible: model.gotError(), text: model.error()" style="margin-top: 2em">
+</div>
+
+<div data-bind="visible: !model.authenticated()" class=" text-center" style="margin-top: 2em">
+    <div class="form-group">
+        <label>Username</label>
+        <input data-bind="value: model.username" />
+    </div>
+    <div class="form-group">
+        <label>Password</label>
+        <input type="password" data-bind="value: model.password" />
+    </div>
+    <button data-bind="click: authenticate">
+        Sign In
+    </button>
+</div>
+
+<div data-bind="visible: model.authenticated()">
+    <div>
+        <a href="#" data-bind="click: removeAllFinishedTasks, visible: model.categories().length > 0" style="margin-left: 50em">Remove all finished tasks</a>
+    </div>
+    <hr />
+    <div>
+        <div style="float: left; width: 18em">
+            <ul class="categories" data-bind="foreach: model.categories, visible: model.categories().length > 0">
+                <li>
+                    <label data-bind="text: text, css : {selected : id == model.chosenCategoryId()}, click: goToCategory"></label>
+                    <a href="#" data-bind="click: removeCategory">X</a>
+                </li>
+            </ul>
+            <form data-bind="submit: addCategory ">
+                Add category: <input data-bind="value: model.newCategoryText" />
+                <button type="submit">Add</button>
+            </form>
+        </div>
+        <div style="float: left; margin-left: 7em;">
+            <ul class="tasks" data-bind="foreach: model.chosenCategoryTasks, visible: model.chosenCategoryTasks().length > 0 &&  model.categories().length > 0">
+                <li>
+                    <input type="checkbox" data-bind="checked: isFinished, click: updateTaskStatus" />
+                    <label data-bind="text: text"></label>
+                    <a href="#" data-bind="click: removeTask">X</a>
+                    <br />
+                    <a href="#" data-bind="click: getTaskSubTasks, text: subTasksOpenHideText"></a>
+                    <div style="margin-left: 2em" data-bind="visible: isSubTasksOpened()">
+                        <ul data-bind="foreach: $data.subTasks, visible: $data.subTasks().length > 0">
+                            <li>
+                                <input type="checkbox" data-bind="checked: isFinished, click: updateSubTaskStatus" />
+                                <label data-bind="text: text"></label>
+                                <a href="#" data-bind="click: removeSubTask">X</a>
+                                <hr />
+                            </li>
+                        </ul>
+                        Add sub task: <input data-bind="value: $data.newSubTaskText" />
+                        <button data-bind="click: addSubTask">Add</button>
+                    </div>
+                    <hr />
+                </li>
+            </ul>
+
+            <form data-bind="submit: addTask, visible: model.categories().length > 0">
+                Add task: <input data-bind="value: model.newTaskText" />
+                <button type="submit">Add</button>
+            </form>
+        </div>
+        <div style="clear: both"></div>
+    </div>
+</div>

@@ -10,10 +10,14 @@ namespace TaskManager.Data.Context
 {
     public class TaskManagerDbContext : DbContext
     {
+        public TaskManagerDbContext() 
+            : base("TaskManagerDb")
+        {
+                Database.SetInitializer<TaskManagerDbContext>(new TaskManagerDbInitializer());
+        }
         public virtual DbSet<Category> Categories { get; set; }
         public virtual DbSet<SubTask> SubTasks { get; set; }
         public virtual DbSet<Task> Tasks { get; set; }
-
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Category>()

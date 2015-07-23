@@ -29,7 +29,36 @@ namespace TaskManager.Domain.Concrete.Services
             var subTask = _subTaskRepository.GetById(subTaskId);
 
             subTask.IsFinished = !subTask.IsFinished;
+
+
+            subTask.Task.IsFinished = subTask.Task.SubTasks.FirstOrDefault(x => !x.IsFinished) == null;
+            
+            
             _subTaskRepository.Update(subTask);
+
+        }
+
+        public new void Add(SubTask subTask)
+        {
+            base.Add(subTask);
+            var task = _subTaskRepository.GetTaskById(subTask.TaskId);
+            task.IsFinished = false;
+            _subTaskRepository.UpdateTask(task);
+        }
+
+        public new void RemoveById(int id)
+        {
+            SubTask subTask = _subTaskRepository.GetById(id);
+            Task task = subTask.Task;
+            
+
+             if (task.SubTasks.Count > 1 && 
+                 task.SubTasks.FirstOrDefault(x => !x.IsFinished && x.Id != id) == null)
+             {
+                 task.IsFinished = true;
+             }
+
+             _subTaskRepository.Remove(subTask);
         }
     }
 }

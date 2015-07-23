@@ -14,8 +14,6 @@ namespace TaskManager.Domain.Entities
         [Required]
         public string Text { get; set; }
         public int CategoryId { get; set; }
-
-        [Required]
         public bool IsFinished { get; set; }
         public virtual Category Category { get; set; }
 
